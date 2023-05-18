@@ -1,0 +1,38 @@
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
+on: [push]
+env:
+  RUNS_ON: ubuntu-latest
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  initialization:
+    runs-on: $RUNS_ON
+    name: Initialization
+      - run: echo "Installing dependencies."
+      - run: sudo apt-get install zip gzip tar
+      - run: echo "Configure AWS credentials."
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GithubAction Demo
+          aws-region: us-east-1  
+    
+  build-stage:
+    runs-on: $RUNS_ON
+    name: Build Stage
+    needs: initialization
+    steps:
+      - run: echo "Before checking out the repository: $(pwd)"
+      - run: ls -l
+      - run: echo "Checking out the repository."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "After checking out the repository: $(pwd)"
+      - run: ls -l
+      - run: echo "Build stage succeeded."
+
