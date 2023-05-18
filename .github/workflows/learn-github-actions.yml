@@ -30,12 +30,12 @@ jobs:
     needs: initialization
     steps:
       - run: echo "Before checking out the repository: "
-      - run: echo 'Before checking out the repository: $WORKSPACE'
+      - run: echo "Before checking out the repository: ${{ github.workspace }}"
       - run: ls -l
       - run: echo "Checking out the repository."
       - name: Check out repository code
         uses: actions/checkout@v3
-      - run: echo 'After checking out the repository: ${{ github.workspace }}'
+      - run: echo "After checking out the repository: ${{ github.workspace }}"
       - run: ls -l
       - run: echo "Build stage succeeded."
 
