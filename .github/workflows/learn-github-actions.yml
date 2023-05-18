@@ -3,6 +3,7 @@ run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 env:
   RUNS_ON: ubuntu-latest
+  WORKSPACE: ${{ github.workspace }}
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -28,7 +29,7 @@ jobs:
     name: Build Stage
     needs: initialization
     steps:
-      - run: echo 'Before checking out the repository: ${{ github.workspace }}'
+      - run: echo 'Before checking out the repository: $WORKSPACE'
       - run: ls -l
       - run: echo "Checking out the repository."
       - name: Check out repository code
