@@ -20,7 +20,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
-          role-session-name: GithubAction Demo
+          role-session-name: GithubActionDemo
           aws-region: us-east-1  
     
   build-stage:
