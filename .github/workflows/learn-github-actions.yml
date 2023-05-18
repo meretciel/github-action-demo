@@ -12,6 +12,7 @@ jobs:
   initialization:
     runs-on: $RUNS_ON
     name: Initialization
+    steps:
       - run: echo "Installing dependencies."
       - run: sudo apt-get install zip gzip tar
       - run: echo "Configure AWS credentials."
