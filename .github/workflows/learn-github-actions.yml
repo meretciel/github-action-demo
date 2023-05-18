@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   initialization:
-    runs-on: ${{ env.RUNS_ON }}
+    runs-on: ubuntu-latest
     name: Initialization
     steps:
       - run: echo "Installing dependencies."
@@ -24,7 +24,7 @@ jobs:
           aws-region: us-east-1  
     
   build-stage:
-    runs-on: ${{ env.RUNS_ON }}
+    runs-on: ubuntu-latest
     name: Build Stage
     needs: initialization
     steps:
