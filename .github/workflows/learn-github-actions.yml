@@ -3,7 +3,6 @@ run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 env:
   RUNS_ON: ubuntu-latest
-  WORKSPACE: ${{ github.workspace }}
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -11,7 +10,7 @@ permissions:
 
 jobs:
   initialization:
-    runs-on: $RUNS_ON
+    runs-on: ${{ env.RUNS_ON }}
     name: Initialization
     steps:
       - run: echo "Installing dependencies."
@@ -25,7 +24,7 @@ jobs:
           aws-region: us-east-1  
     
   build-stage:
-    runs-on: $RUNS_ON
+    runs-on: ${{ env.RUNS_ON }}
     name: Build Stage
     needs: initialization
     steps:
