@@ -29,6 +29,7 @@ jobs:
     name: Build Stage
     needs: initialization
     steps:
+      - run: echo "Before checking out the repository: "
       - run: echo 'Before checking out the repository: $WORKSPACE'
       - run: ls -l
       - run: echo "Checking out the repository."
