@@ -3,6 +3,7 @@ run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 env:
   RUNS_ON: ubuntu-latest
+  ARTIFACT_NAME: GithubActionDemo.${{ github.head_ref }}.${{ github.sha }}.zip
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -28,12 +29,28 @@ jobs:
     name: Build Stage
     needs: initialization
     steps:
-      - run: echo "Before checking out the repository ${{ github.workspace }}"
-      - run: ls -l
+      - run: echo "Nothing to build in a python package. Succeeding directly."
+
+  test-stage:
+    runs-on: ubuntu-latest
+    name: Test Stage
+    needs: build-stage
+    steps:
       - run: echo "Checking out the repository."
       - name: Check out repository code
         uses: actions/checkout@v3
-      - run: echo "After checking out the repository ${{ github.workspace }}"
-      - run: ls -l
-      - run: echo "Build stage succeeded."
+      - run: echo "Running unittest in the repository."
+      - run: python3 -m unittest
 
+  packaging-stage:
+    runs-on: $RUNS_ON
+    name: Packaging Stage
+    needs: test-stage
+    steps:
+      - run: echo "Creating an artifact."
+      - run: echo "Checking out the repository."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: zip -r ${{ env.ARTIFACT_NAME }} GithubActionDemo
+      - run: echo "Uploading the artifact to S3."
+      - run: aws s3 ${{ env.ARTIFACT_NAME }} s3://ryansblog-lab/
