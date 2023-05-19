@@ -17,12 +17,6 @@ jobs:
       - run: echo "Installing dependencies."
       - run: sudo apt-get install zip gzip tar
       - run: echo "Configure AWS credentials."
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
-          role-session-name: GithubActionDemo
-          aws-region: ${{ env.AWS_REGION }}
     
   build-stage:
     runs-on: ubuntu-latest
@@ -52,5 +46,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: zip -r ${{ env.ARTIFACT_NAME }} GithubActionDemo
+      - run: echo "Connect to AWS and get temporary credential token."
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GithubActionDemo
+          aws-region: ${{ env.AWS_REGION }}
       - run: echo "Uploading the artifact to S3."
       - run: aws s3 cp ${{ env.ARTIFACT_NAME }} s3://ryansblog-lab/ --region ${{ env.AWS_REGION }}
