@@ -60,7 +60,7 @@ jobs:
   beta-stage:
     runs-on: ubuntu-latest
     name: Beta Stage
-    needs: publish-stage
+    needs: packaging-stage
     environment: beta
     steps:
       - run: echo "[beta] AWS_REGION = ${{ vars.AWS_REGION }}"
