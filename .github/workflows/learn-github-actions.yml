@@ -43,7 +43,7 @@ jobs:
       - run: python3 -m unittest
 
   packaging-stage:
-    runs-on: $RUNS_ON
+    runs-on: ubuntu-latest
     name: Packaging Stage
     needs: test-stage
     steps:
